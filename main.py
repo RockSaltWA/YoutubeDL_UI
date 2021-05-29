@@ -1,5 +1,6 @@
 from tkinter import *
 from pytube import YouTube
+import video_conversion
 
 class Application(Frame):
     def __init__(self, master=None):
@@ -51,6 +52,11 @@ class Application(Frame):
                 self.mp4_download()
             elif filetype == "mp3":
                 self.mp3_download()
+        elif linktype == "playlist":
+            if filetype == "mp4":
+                pass
+            elif filetype == "mp3":
+                pass
         else:
             print("Wrong shit ig idek")
             self.master.destroy()
@@ -66,22 +72,28 @@ class Application(Frame):
         pass
 
     def mp4_download(self):
+        video_conversion.missing_dir("./mp4")
         yt = YouTube(self.vid_url.get())
         title = yt.title
         print("downloading mp4")
         for i in self.bad_chars:
             title = title.replace(i, '')
         # self.download_popup(title)
-        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
+        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./mp4")
         print("downloaded %s.mp4" % title)
         # video_display.MyVideoCapture("./" + title + ".mp4")
 
     def mp3_download(self):
-        url = self.vid_url.get()
-        yt = YouTube(url)
+        video_conversion.missing_dir("./temp")
+        yt = YouTube(self.vid_url.get())
         title = yt.title
+        print("downloading mp3")
+        for i in self.bad_chars:
+            title = title.replace(i, '')
         self.download_popup(title)
-        yt.streams.filter(progressive=True, file_extension='mp3').order_by('resolution').desc().first().download()
+        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./temp")
+        video_conversion.mp4_2_mp3(title)
+        print("downloaded %s.mp4" % title)
 
 
 root = Tk()
