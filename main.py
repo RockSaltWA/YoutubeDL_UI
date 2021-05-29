@@ -1,16 +1,6 @@
 from tkinter import *
 from pytube import YouTube
 
-
-def kaboom_alphabet():
-    alphabet = []
-    for i in range(65, 91):
-        alphabet.append(chr(i))
-    for i in range(97, 123):
-        alphabet.append(chr(i))
-    return alphabet
-
-
 class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -33,13 +23,13 @@ class Application(Frame):
 
         self.uwu = Button(self)
         self.uwu["text"] = "Download"
-        self.uwu["command"] = self.mp4_download
+        self.uwu["command"] = self.download_manager
         self.uwu.grid(row=1, column=2)
 
-        self.statusbutton = Button(self)
-        self.statusbutton["text"] = "Status"
-        self.statusbutton["command"] = self.download_manager
-        self.statusbutton.grid(row=5, column=0)
+        # self.statusbutton = Button(self)
+        # self.statusbutton["text"] = "Status"
+        # self.statusbutton["command"] = self.download_manager
+        # self.statusbutton.grid(row=5, column=0)
 
         self.dropdown_variable1.set("<file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
@@ -55,10 +45,12 @@ class Application(Frame):
 
     def download_manager(self):
         filetype, linktype = self.dropdown_status()
-        print(filetype + linktype)
+        print("hello")
         if linktype == "video":
             if filetype == "mp4":
                 self.mp4_download()
+            elif filetype == "mp3":
+                self.mp3_download()
         else:
             print("Wrong shit ig idk")
             self.master.destroy()
@@ -74,18 +66,22 @@ class Application(Frame):
         pass
 
     def mp4_download(self):
-        alphabet = kaboom_alphabet
         yt = YouTube(self.vid_url.get())
         title = yt.title
+        print("downloading mp4")
         for i in self.bad_chars:
             title = title.replace(i, '')
-        print(title)
-        self.download_popup(title)
-        print(title)
+        # self.download_popup(title)
         yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
-        print(title)
+        print("downloaded %s.mp4" % title)
         # video_display.MyVideoCapture("./" + title + ".mp4")
-        print(title)
+
+    def mp3_download(self):
+        url = self.vid_url.get()
+        yt = YouTube(url)
+        title = yt.title
+        self.download_popup(title)
+        yt.streams.filter(progressive=True, file_extension='mp3').order_by('resolution').desc().first().download()
 
 
 root = Tk()
