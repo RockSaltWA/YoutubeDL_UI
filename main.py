@@ -5,6 +5,7 @@ from pytube import YouTube
 class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
+        self.dropdown_variable2 = StringVar(self)
         self.bad_chars = ['/', "\\", ':', '*', '?', '"', '<', '>', '|', "'", ".", "~"]
         self.dropdown_variable1 = StringVar(self)
         self.master = master
@@ -28,24 +29,30 @@ class Application(Frame):
 
         self.statusbutton = Button(self)
         self.statusbutton["text"] = "Status"
-        self.statusbutton["command"] = self.superstats
+        self.statusbutton["command"] = self.mp4_download
         self.statusbutton.grid(row=2, column=0)
 
         self.dropdown_variable1.set("<file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
         self.dropdown_filetype.grid(row=2, column=2)
 
-        # self.dropdown_variable2 = StringVar(self)
-        # self.dropdown_variable2.set("<link type>")
-        # self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
-        # self.dropdown_linktype.grid(row=2, column=0)
+        self.dropdown_variable2.set("<link type>")
+        self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
+        self.dropdown_linktype.grid(row=2, column=0)
 
         self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.place(relx=0.5, rely=0.5, anchor="center")
         self.quit.grid(columnspan=3)
 
-    def superstats(self):
-        self.myLabel = Label(self, text=self.dropdown_variable1.get()).grid(row=5)
+    def download_manager(self):
+        pass
+        # filetype, linktype = self.dropdown_status()
+        # if filetype
+
+    def dropdown_status(self):
+        filetype = self.dropdown_variable1.get()
+        linktype = self.dropdown_variable2.get()
+        return filetype, linktype
 
     def download_popup(self, title):
         # win = tk.Toplevel()
