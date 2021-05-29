@@ -1,5 +1,5 @@
 from tkinter import *
-from pytube import YouTube
+from pytube import *
 import video_conversion
 
 class Application(Frame):
@@ -49,12 +49,14 @@ class Application(Frame):
         print("hello")
         if linktype == "video":
             if filetype == "mp4":
-                self.mp4_download()
+                self.mp4_download(YouTube(self.vid_url.get()))
             elif filetype == "mp3":
                 self.mp3_download()
         elif linktype == "playlist":
             if filetype == "mp4":
-                pass
+                p = Playlist(self.vid_url.get())
+                for video in p.videos:
+                    self.mp4_download(video)
             elif filetype == "mp3":
                 pass
         else:
@@ -71,9 +73,8 @@ class Application(Frame):
         # win.wm_title("Downloading %s", title)
         pass
 
-    def mp4_download(self):
+    def mp4_download(self, yt):
         video_conversion.missing_dir("./mp4")
-        yt = YouTube(self.vid_url.get())
         title = yt.title
         print("downloading mp4")
         for i in self.bad_chars:
