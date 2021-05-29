@@ -52,7 +52,7 @@ class Application(Frame):
             elif filetype == "mp3":
                 self.mp3_download()
         else:
-            print("Wrong shit ig idk")
+            print("Wrong shit ig idek")
             self.master.destroy()
 
     def dropdown_status(self):
