@@ -53,6 +53,8 @@ class Application(Frame):
                 self.mp4_download(YouTube(self.vid_url.get()))
             elif filetype == "mp3":
                 self.mp3_download(YouTube(self.vid_url.get()))
+            elif filetype == "png (thumbnail)":
+                self.thumbnail_download(YouTube(self.vid_url.get()))
         elif linktype == "playlist":
             if filetype == "mp4":
                 p = Playlist(self.vid_url.get())
@@ -62,6 +64,10 @@ class Application(Frame):
                 p = Playlist(self.vid_url.get())
                 for video in p.videos:
                     self.mp3_download(video)
+            elif filetype == "png (thumbnail)":
+                p = Playlist(self.vid_url.get())
+                for video in p.videos:
+                    self.thumbnail_download(video)
         else:
             print("Wrong shit ig idek")
             self.master.destroy()
@@ -97,6 +103,18 @@ class Application(Frame):
         yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./temp")
         video_conversion.mp4_2_mp3(title)
         print("downloaded %s.mp4" % title)
+
+    def thumbnail_download(self, yt):
+        video_conversion.missing_dir("./thumbnails")
+        title = yt.title
+        print("downloading thumbnail")
+        for i in self.bad_chars:
+            title = title.replace(i, '')
+        # self.download_popup(title)
+        url = yt.thumbnail_url
+        print(url)
+        urllib.request.urlretrieve(url, "./thumbnails/%s.png" % title)
+
 
 root = Tk()
 root.title("YouTube Downloader")
