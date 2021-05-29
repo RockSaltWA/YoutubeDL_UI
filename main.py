@@ -21,22 +21,26 @@ class Application(Frame):
         self.vid_text.grid(row=0, column=0, ipadx=5, pady=5, sticky=W+N)
 
         self.vid_url = Entry(self, justify="center", width=50)
-        self.vid_url.grid(row=0, column=1, padx=10, pady=5, sticky=N)
+        self.vid_url.grid(row=0, column=1, columnspan=3, padx=10, pady=5, sticky=N)
 
         self.uwu = Button(self)
         self.uwu["text"] = "Download"
         self.uwu["command"] = self.download_manager
-        self.uwu.grid(row=2, column=0, columnspan=3, padx=5, pady=5, stick=W+S+E)
+        self.uwu.grid(row=2, column=0, columnspan=4, padx=5, pady=5, stick=W+S+E)
 
         self.dropdown_variable1.set("<select file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
         self.dropdown_filetype.config(width=20)
-        self.dropdown_filetype.grid(row=1, column=0, padx=5, pady=5, stick=W)
+        self.dropdown_filetype.grid(row=1, column=0, columnspan=2, padx=5, pady=5, stick=W)
 
         self.dropdown_variable2.set("<select link type>")
         self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
         self.dropdown_linktype.config(width=20)
-        self.dropdown_linktype.grid(row=1, column=1, padx=5, pady=5)
+        self.dropdown_linktype.grid(row=1, column=2, columnspan=2, padx=5, pady=5)
+
+        self.logo = PhotoImage(file='FunkyLogo.png')
+        self.logo_label = Label(self, image=self.logo)
+        self.logo_label.grid(row=0, column=4, rowspan=3, columnspan=1, ipadx=5, pady=5, sticky=N+E+S)
 
         # self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         # self.quit.place(relx=0.5, rely=0.5, anchor="center")
