@@ -16,7 +16,7 @@ class Application(Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.canvas = Canvas(self, bg="black", width=700, height=400)
+        self.canvas = Canvas()
         # self.canvas.grid(row=0, column=0, rowspan=3, columnspan=6)
 
 
@@ -46,11 +46,12 @@ class Application(Frame):
         self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
         self.dropdown_linktype.config(width=20)
         self.dropdown_linktype["highlightthickness"] = 0
-        self.dropdown_linktype.grid(row=1, column=2, columnspan=2, padx=5, pady=5)
+        self.dropdown_linktype.grid(row=1, column=2, columnspan=2, padx=5, pady=5, stick=E)
 
-        self.logo = PhotoImage(file='FunkyLogo.png')
-        self.logo_label = Label(self, image=self.logo)
-        self.logo_label.grid(row=0, column=4, rowspan=3, columnspan=1, ipadx=5, pady=5, sticky=N+E+S)
+        # self.logo = PhotoImage(file='cropFunky2.png')
+        # self.logo_label = Label(self, image=self.logo)
+        # self.logo_label["highlightthickness"] = 0
+        # self.logo_label.grid(row=0, column=4, rowspan=3, columnspan=1, ipadx=5, pady=5, sticky=N+E+S)
 
         # self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         # self.quit.place(relx=0.5, rely=0.5, anchor="center")
@@ -88,7 +89,7 @@ class Application(Frame):
         linktype = self.dropdown_variable2.get()
         return filetype, linktype
 
-    def download_popup(self, title):
+    def popup(self, title, text):
         # win = tk.Toplevel()
         # win.wm_title("Downloading %s", title)
         pass
@@ -128,7 +129,7 @@ class Application(Frame):
 
 
 root = Tk()
-root.title("YouTube Downloader")
+root.title("£cho's YouTube Downloader")
 #root.geometry("852x480")
 
 # loading image logo
