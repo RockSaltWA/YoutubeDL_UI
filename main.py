@@ -1,3 +1,4 @@
+import urllib
 from tkinter import *
 from pytube import *
 import video_conversion
@@ -51,14 +52,16 @@ class Application(Frame):
             if filetype == "mp4":
                 self.mp4_download(YouTube(self.vid_url.get()))
             elif filetype == "mp3":
-                self.mp3_download()
+                self.mp3_download(YouTube(self.vid_url.get()))
         elif linktype == "playlist":
             if filetype == "mp4":
                 p = Playlist(self.vid_url.get())
                 for video in p.videos:
                     self.mp4_download(video)
             elif filetype == "mp3":
-                pass
+                p = Playlist(self.vid_url.get())
+                for video in p.videos:
+                    self.mp3_download(video)
         else:
             print("Wrong shit ig idek")
             self.master.destroy()
@@ -84,18 +87,16 @@ class Application(Frame):
         print("downloaded %s.mp4" % title)
         # video_display.MyVideoCapture("./" + title + ".mp4")
 
-    def mp3_download(self):
+    def mp3_download(self, yt):
         video_conversion.missing_dir("./temp")
-        yt = YouTube(self.vid_url.get())
         title = yt.title
         print("downloading mp3")
         for i in self.bad_chars:
             title = title.replace(i, '')
-        self.download_popup(title)
+        # self.download_popup(title)
         yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./temp")
         video_conversion.mp4_2_mp3(title)
         print("downloaded %s.mp4" % title)
-
 
 root = Tk()
 root.title("YouTube Downloader")
