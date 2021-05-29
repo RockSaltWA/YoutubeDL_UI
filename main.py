@@ -1,6 +1,5 @@
 from tkinter import *
 from pytube import YouTube
-import video_display
 
 
 class Application(Frame):
@@ -37,13 +36,9 @@ class Application(Frame):
         self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
         self.dropdown_linktype.grid(row=2, column=0)
 
-
         self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.place(relx=0.5, rely=0.5, anchor="center")
         self.quit.grid(columnspan=3)
-
-        # self.button_bonus = tk.Button(self, text="Bonuses", command=self.download_popup)
-        # self.button_bonus.grid(columnspan=3)
 
     def download_popup(self, title):
         # win = tk.Toplevel()
@@ -69,16 +64,8 @@ class Application(Frame):
         print(title)
         yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
         print(title)
-        video_display.MyVideoCapture("./" + title + ".mp4")
+        # video_display.MyVideoCapture("./" + title + ".mp4")
         print(title)
-
-    # def mp3_download(self):
-    #     alphabet = self.kaboom_alphabet
-    #     url = self.vid_url.get()
-    #     yt = YouTube(url)
-    #     title = yt.title
-    #     self.download_popup(title)
-    #     yt.streams.filter(progressive=True, file_extension='mp3').order_by('resolution').desc().first().download()
 
 
 root = Tk()
