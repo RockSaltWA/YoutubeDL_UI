@@ -1,9 +1,9 @@
-import tkinter as tk
+from tkinter import *
 from pytube import YouTube
 import video_display
 
 
-class Application(tk.Frame):
+class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.bad_chars = ['/', "\\", ':', '*', '?', '"', '<', '>', '|', "'", ".", "~"]
@@ -14,20 +14,31 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.vid_text = tk.Label(self)
+        self.vid_text = Label(self)
         self.vid_text["text"] = "YouTube Downloader by Echo"
         self.vid_text["font"] = "Times"
         self.vid_text.grid(columnspan=3)
 
-        self.vid_url = tk.Entry(self, justify="center")
+        self.vid_url = Entry(self, justify="center")
         self.vid_url.grid(columnspan=2)
 
-        self.uwu = tk.Button(self)
+        self.uwu = Button(self)
         self.uwu["text"] = "Download"
         self.uwu["command"] = self.mp4_download
         self.uwu.grid(row=1, column=2)
 
-        self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
+        self.dropdown_variable1 = StringVar(self)
+        self.dropdown_variable1.set("<file type>")
+        self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
+        self.dropdown_filetype.grid(row=2, column=2)
+
+        self.dropdown_variable2 = StringVar(self)
+        self.dropdown_variable2.set("<link type>")
+        self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
+        self.dropdown_linktype.grid(row=2, column=0)
+
+
+        self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.place(relx=0.5, rely=0.5, anchor="center")
         self.quit.grid(columnspan=3)
 
@@ -70,12 +81,12 @@ class Application(tk.Frame):
     #     yt.streams.filter(progressive=True, file_extension='mp3').order_by('resolution').desc().first().download()
 
 
-root = tk.Tk()
+root = Tk()
 root.title("YouTube Downloader")
 # root.geometry("852x480")
 
 # loading image logo
-root.iconphoto(True, tk.PhotoImage(file='eyt.png'))
+root.iconphoto(True, PhotoImage(file='eyt.png'))
 
 # Resizeable for different monitors
 root.resizable(True, True)
