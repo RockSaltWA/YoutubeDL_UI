@@ -16,9 +16,17 @@ class Application(Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        self.canvas = Canvas(self, bg="black", width=700, height=400)
+        # self.canvas.grid(row=0, column=0, rowspan=3, columnspan=6)
+
+
+        self.background_image = PhotoImage(file="background.png")
+        self.background_label = Label(self, image=self.background_image)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
         self.vid_text = Label(self)
         self.vid_text["text"] = "Enter url:"
-        self.vid_text.grid(row=0, column=0, ipadx=5, pady=5, sticky=W+N)
+        self.vid_text.grid(row=0, column=0, padx=5, pady=5, sticky=W+N)
 
         self.vid_url = Entry(self, justify="center", width=50)
         self.vid_url.grid(row=0, column=1, columnspan=3, padx=10, pady=5, sticky=N)
@@ -31,11 +39,13 @@ class Application(Frame):
         self.dropdown_variable1.set("<select file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
         self.dropdown_filetype.config(width=20)
+        self.dropdown_filetype["highlightthickness"] = 0
         self.dropdown_filetype.grid(row=1, column=0, columnspan=2, padx=5, pady=5, stick=W)
 
         self.dropdown_variable2.set("<select link type>")
         self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
         self.dropdown_linktype.config(width=20)
+        self.dropdown_linktype["highlightthickness"] = 0
         self.dropdown_linktype.grid(row=1, column=2, columnspan=2, padx=5, pady=5)
 
         self.logo = PhotoImage(file='FunkyLogo.png')
@@ -125,6 +135,6 @@ root.title("YouTube Downloader")
 root.iconphoto(True, PhotoImage(file='eyt.png'))
 
 # Resizeable for different monitors
-root.resizable(True, True)
+root.resizable(False, False)
 app = Application(master=root)
 app.mainloop()

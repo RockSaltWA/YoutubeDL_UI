@@ -1,3 +1,4 @@
+from PIL.Image import Image
 from moviepy.editor import *
 
 
@@ -24,3 +25,7 @@ def mp4_2_mp3(title):
         clean_house("./temp")
     except:
         print("cannot clean house the temp directory")
+
+
+def RBGAImage(path):
+    return Image.open(path).convert("RGBA")
