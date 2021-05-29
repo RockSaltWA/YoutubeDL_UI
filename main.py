@@ -6,7 +6,7 @@ class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.bad_chars = ['/', "\\", ':', '*', '?', '"', '<', '>', '|', "'", ".", "~"]
-
+        self.dropdown_variable1 = StringVar(self)
         self.master = master
 
         self.pack()
@@ -26,19 +26,26 @@ class Application(Frame):
         self.uwu["command"] = self.mp4_download
         self.uwu.grid(row=1, column=2)
 
-        self.dropdown_variable1 = StringVar(self)
+        self.statusbutton = Button(self)
+        self.statusbutton["text"] = "Status"
+        self.statusbutton["command"] = self.superstats
+        self.statusbutton.grid(row=2, column=0)
+
         self.dropdown_variable1.set("<file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
         self.dropdown_filetype.grid(row=2, column=2)
 
-        self.dropdown_variable2 = StringVar(self)
-        self.dropdown_variable2.set("<link type>")
-        self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
-        self.dropdown_linktype.grid(row=2, column=0)
+        # self.dropdown_variable2 = StringVar(self)
+        # self.dropdown_variable2.set("<link type>")
+        # self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
+        # self.dropdown_linktype.grid(row=2, column=0)
 
         self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.place(relx=0.5, rely=0.5, anchor="center")
         self.quit.grid(columnspan=3)
+
+    def superstats(self):
+        self.myLabel = Label(self, text=self.dropdown_variable1.get()).grid(row=5)
 
     def download_popup(self, title):
         # win = tk.Toplevel()
@@ -70,7 +77,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("YouTube Downloader")
-# root.geometry("852x480")
+root.geometry("852x480")
 
 # loading image logo
 root.iconphoto(True, PhotoImage(file='eyt.png'))
