@@ -2,6 +2,7 @@ import urllib
 from tkinter import *
 from pytube import *
 import video_conversion
+from moviepy.editor import *
 
 class Application(Frame):
     def __init__(self, master=None):
@@ -16,34 +17,30 @@ class Application(Frame):
 
     def create_widgets(self):
         self.vid_text = Label(self)
-        self.vid_text["text"] = "YouTube Downloader by Echo"
-        self.vid_text["font"] = "Times"
-        self.vid_text.grid(columnspan=3)
+        self.vid_text["text"] = "Enter url:"
+        self.vid_text.grid(row=0, column=0, ipadx=5, pady=5, sticky=W+N)
 
-        self.vid_url = Entry(self, justify="center")
-        self.vid_url.grid(columnspan=2)
+        self.vid_url = Entry(self, justify="center", width=50)
+        self.vid_url.grid(row=0, column=1, padx=10, pady=5, sticky=N)
 
         self.uwu = Button(self)
         self.uwu["text"] = "Download"
         self.uwu["command"] = self.download_manager
-        self.uwu.grid(row=1, column=2)
+        self.uwu.grid(row=2, column=0, columnspan=3, padx=5, pady=5, stick=W+S+E)
 
-        # self.statusbutton = Button(self)
-        # self.statusbutton["text"] = "Status"
-        # self.statusbutton["command"] = self.download_manager
-        # self.statusbutton.grid(row=5, column=0)
-
-        self.dropdown_variable1.set("<file type>")
+        self.dropdown_variable1.set("<select file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
-        self.dropdown_filetype.grid(row=2, column=2)
+        self.dropdown_filetype.config(width=20)
+        self.dropdown_filetype.grid(row=1, column=0, padx=5, pady=5, stick=W)
 
-        self.dropdown_variable2.set("<link type>")
+        self.dropdown_variable2.set("<select link type>")
         self.dropdown_linktype = OptionMenu(self, self.dropdown_variable2, "playlist", "video")
-        self.dropdown_linktype.grid(row=2, column=0)
+        self.dropdown_linktype.config(width=20)
+        self.dropdown_linktype.grid(row=1, column=1, padx=5, pady=5)
 
-        self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
-        self.quit.place(relx=0.5, rely=0.5, anchor="center")
-        self.quit.grid(columnspan=3)
+        # self.quit = Button(self, text="QUIT", fg="red", command=self.master.destroy)
+        # self.quit.place(relx=0.5, rely=0.5, anchor="center")
+        # self.quit.grid(columnspan=3)
 
     def download_manager(self):
         filetype, linktype = self.dropdown_status()
@@ -118,7 +115,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("YouTube Downloader")
-root.geometry("852x480")
+#root.geometry("852x480")
 
 # loading image logo
 root.iconphoto(True, PhotoImage(file='eyt.png'))
