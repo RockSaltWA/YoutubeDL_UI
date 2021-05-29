@@ -2,6 +2,15 @@ from tkinter import *
 from pytube import YouTube
 
 
+def kaboom_alphabet():
+    alphabet = []
+    for i in range(65, 91):
+        alphabet.append(chr(i))
+    for i in range(97, 123):
+        alphabet.append(chr(i))
+    return alphabet
+
+
 class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -29,8 +38,8 @@ class Application(Frame):
 
         self.statusbutton = Button(self)
         self.statusbutton["text"] = "Status"
-        self.statusbutton["command"] = self.mp4_download
-        self.statusbutton.grid(row=2, column=0)
+        self.statusbutton["command"] = self.download_manager
+        self.statusbutton.grid(row=5, column=0)
 
         self.dropdown_variable1.set("<file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
@@ -45,9 +54,14 @@ class Application(Frame):
         self.quit.grid(columnspan=3)
 
     def download_manager(self):
-        pass
-        # filetype, linktype = self.dropdown_status()
-        # if filetype
+        filetype, linktype = self.dropdown_status()
+        print(filetype + linktype)
+        if linktype == "video":
+            if filetype == "mp4":
+                self.mp4_download()
+        else:
+            print("Wrong shit ig idk")
+            self.master.destroy()
 
     def dropdown_status(self):
         filetype = self.dropdown_variable1.get()
@@ -59,16 +73,8 @@ class Application(Frame):
         # win.wm_title("Downloading %s", title)
         pass
 
-    def kaboom_alphabet(self):
-        alphabet = []
-        for i in range(65, 91):
-            alphabet.append(chr(i))
-        for i in range(97, 123):
-            alphabet.append(chr(i))
-        return alphabet
-
     def mp4_download(self):
-        alphabet = self.kaboom_alphabet
+        alphabet = kaboom_alphabet
         yt = YouTube(self.vid_url.get())
         title = yt.title
         for i in self.bad_chars:
@@ -93,4 +99,3 @@ root.iconphoto(True, PhotoImage(file='eyt.png'))
 root.resizable(True, True)
 app = Application(master=root)
 app.mainloop()
-
