@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter.messagebox import *
 from pytube import *
 import video_conversion
-from moviepy.editor import *
 
 
 class Application(Frame):

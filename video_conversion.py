@@ -18,9 +18,8 @@ def missing_dir(dir_path):
         os.mkdir(dir_path)
 
 
-def clean_house(dir_path):
-    for x in os.listdir(dir_path):
-        os.remove(os.path.join(dir_path, x))
+def clean_house(dir_path, mp4_temp):
+    os.remove(mp4_temp)
     os.rmdir(dir_path)
 
 
@@ -31,8 +30,9 @@ def mp4_2_mp3(title):
     our_audio = our_video.audio
     mp3_file = './mp3/%s.mp3' % title
     our_audio.write_audiofile(mp3_file)
+    our_video.close()
     try:
-        clean_house("./temp")
+        clean_house("./temp", "./temp/%s.mp4" % title)
     except:
         print("cannot clean house the temp directory")
 
