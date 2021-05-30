@@ -1,8 +1,10 @@
 import urllib
 from tkinter import *
+from tkinter.messagebox import *
 from pytube import *
 import video_conversion
 from moviepy.editor import *
+
 
 class Application(Frame):
     def __init__(self, master=None):
@@ -19,14 +21,14 @@ class Application(Frame):
         self.canvas = Canvas()
         # self.canvas.grid(row=0, column=0, rowspan=3, columnspan=6)
 
-
         self.background_image = PhotoImage(file="background.png")
         self.background_label = Label(self, image=self.background_image)
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
         self.vid_text = Label(self)
         self.vid_text["text"] = "Enter url:"
-        self.vid_text.grid(row=0, column=0, padx=5, pady=5, sticky=W+N)
+        self.vid_text["highlightthickness"] = 0
+        self.vid_text.grid(row=0, column=0, padx=5, pady=5, sticky=W + N)
 
         self.vid_url = Entry(self, justify="center", width=50)
         self.vid_url.grid(row=0, column=1, columnspan=3, padx=10, pady=5, sticky=N)
@@ -34,7 +36,7 @@ class Application(Frame):
         self.uwu = Button(self)
         self.uwu["text"] = "Download"
         self.uwu["command"] = self.download_manager
-        self.uwu.grid(row=2, column=0, columnspan=4, padx=5, pady=5, stick=W+S+E)
+        self.uwu.grid(row=2, column=0, columnspan=4, padx=5, pady=5, stick=W + S + E)
 
         self.dropdown_variable1.set("<select file type>")
         self.dropdown_filetype = OptionMenu(self, self.dropdown_variable1, "mp4", "mp3", "png (thumbnail)")
@@ -59,7 +61,9 @@ class Application(Frame):
 
     def download_manager(self):
         filetype, linktype = self.dropdown_status()
-        print("hello")
+        if self.vid_url.get() == "":
+            print("No url scrub")
+            self.error_popup("Error: No url given", "Please enter a url")
         if linktype == "video":
             if filetype == "mp4":
                 self.mp4_download(YouTube(self.vid_url.get()))
@@ -80,19 +84,20 @@ class Application(Frame):
                 p = Playlist(self.vid_url.get())
                 for video in p.videos:
                     self.thumbnail_download(video)
-        else:
-            print("Wrong shit ig idek")
-            self.master.destroy()
+        elif linktype == "<select link type>":
+            print("No linktype")
+            self.error_popup("Error: No link type selected", "Please select a link type")
+        elif filetype == "<select file type>":
+            print("No filetype")
+            self.error_popup("Error: No file type selected", "Please select a file type")
 
     def dropdown_status(self):
         filetype = self.dropdown_variable1.get()
         linktype = self.dropdown_variable2.get()
         return filetype, linktype
 
-    def popup(self, title, text):
-        # win = tk.Toplevel()
-        # win.wm_title("Downloading %s", title)
-        pass
+    def error_popup(self, title, text):
+        showerror(title, text)
 
     def mp4_download(self, yt):
         video_conversion.missing_dir("./mp4")
@@ -101,7 +106,11 @@ class Application(Frame):
         for i in self.bad_chars:
             title = title.replace(i, '')
         # self.download_popup(title)
-        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./mp4")
+        try:
+            yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(
+                "./mp4")
+        except:
+            showerror("Error: unable to find stream", "Check your connection and ensure the link is valid and public")
         print("downloaded %s.mp4" % title)
         # video_display.MyVideoCapture("./" + title + ".mp4")
 
@@ -112,7 +121,8 @@ class Application(Frame):
         for i in self.bad_chars:
             title = title.replace(i, '')
         # self.download_popup(title)
-        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./temp")
+        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(
+            "./temp")
         video_conversion.mp4_2_mp3(title)
         print("downloaded %s.mp4" % title)
 
@@ -130,7 +140,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("£cho's YouTube Downloader")
-#root.geometry("852x480")
+# root.geometry("852x480")
 
 # loading image logo
 root.iconphoto(True, PhotoImage(file='eyt.png'))
