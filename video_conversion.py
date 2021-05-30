@@ -1,5 +1,15 @@
+import urllib
+
 from PIL.Image import Image
 from moviepy.editor import *
+
+
+def connect(host='http://youtube.com'):
+    try:
+        urllib.request.urlopen(host) #Python 3.x
+        return True
+    except:
+        return False
 
 
 def missing_dir(dir_path):

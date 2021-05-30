@@ -60,7 +60,10 @@ class Application(Frame):
         # self.quit.grid(columnspan=3)
 
     def download_manager(self):
-        filetype, linktype = self.dropdown_status()
+        if not video_conversion.connect("https://youtube.com"):
+            showerror("Error: No connection to YouTube", "Check your internet and ensure that YouTube servers are functioning")
+        else:
+            filetype, linktype = self.dropdown_status()
         if self.vid_url.get() == "":
             print("No url scrub")
             self.error_popup("Error: No url given", "Please enter a url")
