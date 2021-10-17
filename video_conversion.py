@@ -1,12 +1,14 @@
 import urllib
-
+import imageio_ffmpeg
 from PIL.Image import Image
+from pydub import *
 from moviepy.editor import *
+import moviepy.editor as mp
 
 
 def connect(host='http://youtube.com'):
     try:
-        urllib.request.urlopen(host) #Python 3.x
+        urllib.request.urlopen(host)
         return True
     except:
         return False
@@ -36,6 +38,13 @@ def mp4_2_mp3(title):
     except:
         print("cannot clean house the temp directory")
 
-
-def RBGAImage(path):
-    return Image.open(path).convert("RGBA")
+def mp4_2_wav(title):
+    missing_dir("./wav")
+    mp4_file = "./temp/%s.mp4" % title
+    clip = mp.VideoFileClip("./temp/%s.mp4" % title)
+    clip.audio.write_audiofile("./wav/%s.wav" % title)
+    clip.close()
+    try:
+        clean_house("./temp", "./temp/%s.mp4" % title)
+    except:
+        print("cannot clean house the wav? directory")

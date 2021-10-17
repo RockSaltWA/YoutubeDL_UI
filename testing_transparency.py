@@ -1,15 +1,9 @@
-import tkinter as tk
+from pytube import *
+import moviepy.editor as mp
 
-root = tk.Tk()
-
-img = tk.PhotoImage(file='FunkyLogo.png')
-
-can = tk.Canvas(root, width=300, height=300, bg='lightGrey')
-can.grid()
-
-# can.create_rectangle(0, 0, 200, 200, fill='darkGreen')
-# can.create_rectangle(100, 100, 300, 300, fill='navy')
-# can.create_text(150, 150, text='TKINTER', font=('', 32), fill='orange')
-can.create_image(150, 150, image=img)
-
-root.mainloop()
+clip = mp.VideoFileClip("./mp4/ads.mp4")
+clip.audio.write_audiofile("5050.wav")
+#
+# yt = YouTube('http://youtube.com/watch?v=2lAe1cqCOXo')
+# print("hi")
+# yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download("./mp3")
